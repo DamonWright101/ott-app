@@ -8,7 +8,7 @@ before_install:
 script:
 - docker run dwright101/react-test npm test -- --coverage
 
-after_sucess:
+after_success:
 - docker build -t dwright101/ott-app-client ./client
 - docker build -t dwright101/ott-app-nginx ./nginx
 - docker build -t dwright101/ott-app-server ./server
