@@ -1,0 +1,20 @@
+sudo: required
+services:
+- docker
+
+before_install:
+- docker build -t dwright101/react-rest -f ./client/Dockerfile.dev ./client
+
+script:
+- docker run dwright101/react-test npm test -- --coverage
+
+after_sucess:
+- docker build -t dwright101/ott-app-client ./client
+- docker build -t dwright101/ott-app-nginx ./nginx
+- docker build -t dwright101/ott-app-server ./server
+- docker build -t dwright101/ott-app-worker ./worker
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+- docker push dwright101/ott-app-client
+- docker push dwright101/ott-app-nginx
+- docker push dwright101/ott-app-server
+- docker push dwright101/ott-app-worker
