@@ -18,3 +18,16 @@ after_success:
 - docker push dwright101/ott-app-nginx
 - docker push dwright101/ott-app-server
 - docker push dwright101/ott-app-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  name: "ott-app"
+  env: "OttApp-env"
+  bucket_name: "elasticbeanstalk-us-east-1-951598467679"
+  bucket_path: "ott-app"
+  on: 
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY" 
